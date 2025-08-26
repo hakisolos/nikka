@@ -29,8 +29,8 @@ export function messageHandler(nikka) {
             console.log(response)
             return;
         }
-        
-        if (msg.quoted && msg.quoted.sender === "165846454407227@lid") {
+        const conds = ["165846454407227@lid", jidNormalizedUser(nikka.user.id)]
+        if (msg.quoted && conds.includes(msg.quoted.sender)) {
             if(text.startsWith("?")) return
             const res = await nikkaChat(text, msg.sender)
             await msg.reply(res)
