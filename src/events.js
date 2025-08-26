@@ -30,7 +30,8 @@ export function messageHandler(nikka) {
             return;
         }
         
-        if (msg.quoted && '994401499031@s.whatsapp.net' === jidNormalizedUser(nikka.user.id)) {
+        if (msg.quoted && msg.quoted.sender === "165846454407227@lid") {
+            if(text.startsWith("?")) return
             const res = await nikkaChat(text, msg.sender)
             await msg.reply(res)
         }
