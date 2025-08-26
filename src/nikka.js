@@ -7,7 +7,7 @@ import path from "path";
 const historyMap = {};
 
 const defaultConfig = {
-	cohereApiKey: 'fPiR7g6UPLNtj4NzrX48nOrTSMrFfcf03itALRaJ',
+	cohereApiKey: 'cZ0VokEbalNRO1njMnsGoQAMZJ8kZhwD49s27k5f',
 	thoughtsFilePath: './thoughts.json',
 	ownerJid:  ["113439162822839@lid",'2349112171078@s.whatsapp.net'],
 	maxHistoryLength: 5,
