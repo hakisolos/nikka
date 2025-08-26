@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": "2025-08-26T23:03:08.018Z",
+    "jid": "113439162822839@lid",
+    "message": "hi",
+    "reply": "Hey. What do you want?"
+  },
+  {
+    "timestamp": "2025-08-26T23:04:23.046Z",
+    "jid": "113439162822839@lid",
+    "message": ".",
+    "reply": "..."
+  },
+  {
+    "timestamp": "2025-08-26T23:07:05.394Z",
+    "jid": "113439162822839@lid",
+    "message": "gey",
+    "reply": "Hello, haki-sama! How may I serve you today?"
+  },
+  {
+    "timestamp": "2025-08-26T23:07:18.990Z",
+    "jid": "113439162822839@lid",
+    "message": "nevermind, good girl",
+    "reply": "As you wish, master."
+  }
+]
