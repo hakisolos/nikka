@@ -14,7 +14,10 @@ import { dirname } from 'path';
 import qrcode from 'qrcode-terminal';
 import {messageHandler} from './src/events.js';
 import {logger} from "./src/events.js"
-import  config  from './config.js';
+import { loadCommands } from './src/commands.js';
+import { cmdevent } from './src/events.js';
+import LOG from './src/utils/logger.js';
+import config from './config.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 let nikka;
@@ -39,6 +42,9 @@ async function connector() {
         markOnlineOnConnect: true,
         msgRetryCounterCache
     });
+
+    //sessiion retrieval 
+    
 
     nikka.ev.on('connection.update', async (update) => {
         const { connection, qr, lastDisconnect } = update;
@@ -68,10 +74,18 @@ async function connector() {
 
         nikka.ev.on('creds.update', saveCreds);
 
+        LOG.process("installing commands")
+        loadCommands()
+
+        LOG.success("commands installed")
         messageHandler(nikka)
+
+        cmdevent(nikka)
+
         if(config.LOGGER) {
             logger(nikka)
         }
+
 
 
 }

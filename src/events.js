@@ -1,8 +1,9 @@
-import config from "../config.js"
 import { nikkaChat } from "./nikka.js"
 import { serializeMessage } from "./serialize.js"
 import util from 'util'
 import { jidNormalizedUser } from "baileys"
+import { commandHandler } from "./commands.js"
+import config from "../config.js"
 export function messageHandler(nikka) {
     nikka.ev.on('messages.upsert', async ({ messages }) => {
         const m = messages[0]
@@ -17,7 +18,7 @@ export function messageHandler(nikka) {
             await nikka.sendMessage(m.key.remoteJid, { text: 'hi' }, { quoted: m })
         }
         const msg = await serializeMessage(m, nikka);
-        if (msg.body && msg.body.startsWith('?')) {
+        if (msg.body && msg.body.startsWith('$')) {
             if (!(msg.key && msg.fromMe) && config.OWNER === msg.sender) {
                 return;
             }
@@ -32,6 +33,8 @@ export function messageHandler(nikka) {
         const conds = ["165846454407227@lid", jidNormalizedUser(nikka.user.id)]
         if (msg.quoted && conds.includes(msg.quoted.sender)) {
             if(text.startsWith("?")) return
+            let cht = false
+            if(!cht) return
             const res = await nikkaChat(text, msg.sender)
             await msg.reply(res)
         }
@@ -63,5 +66,29 @@ export function logger(nikka) {
         )
     })
 }
+export function cmdevent(nikka) {
+  nikka.ev.on("messages.upsert", async ({ messages }) => {
+    const m = messages[0]
+    if (!m.message) return
+
+    const msg = await serializeMessage(m, nikka)
+    if (!msg || !msg.body) return
+
+    await commandHandler(msg)
+  })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

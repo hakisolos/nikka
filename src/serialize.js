@@ -2,9 +2,6 @@ import { getContentType, downloadContentFromMessage, jidNormalizedUser, download
 import fs from 'fs';
 import path from 'path';
 import config from '../config.js';
-
-
-
 export async function serializeMessage(msg, sock) {
 	if (!msg) return null;
 

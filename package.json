@@ -15,10 +15,15 @@
     "restart": "pm2 stop nikka && pm2 start index.js --attach --name nikka"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.56.1",
     "axios": "^1.11.0",
     "baileys": "^6.7.18",
+    "chalk": "^5.6.0",
+    "chokidar": "^4.0.3",
+    "dotenv": "^17.2.1",
     "node-cache": "^5.1.2",
     "pino": "^9.9.0",
+    "pm2": "^6.0.8",
     "qrcode-terminal": "^0.12.0"
   }
 }
