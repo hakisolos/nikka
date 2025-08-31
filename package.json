@@ -17,7 +17,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.56.1",
     "axios": "^1.11.0",
-    "baileys": "^6.7.18",
+    "baileys": "^6.7.19",
     "chalk": "^5.6.0",
     "chokidar": "^4.0.3",
     "dotenv": "^17.2.1",

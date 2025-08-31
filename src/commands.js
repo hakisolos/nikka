@@ -12,7 +12,8 @@ export function loadCommands() {
   const files = fs.readdirSync(pluginsDir).filter(f => f.endsWith(".js"))
   for (const file of files) {
     const pluginPath = path.join(pluginsDir, file)
-    import(pluginPath).catch(err => {
+    const pluginUrl = 'file://' + pluginPath.replace(/\\/g, '/')
+    import(pluginUrl).catch(err => {
       console.error(`Failed to load plugin ${file}:`, err)
     })
   }

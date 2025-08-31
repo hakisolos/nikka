@@ -18,6 +18,7 @@ import { loadCommands } from './src/commands.js';
 import { cmdevent } from './src/events.js';
 import LOG from './src/utils/logger.js';
 import config from './config.js';
+import  savesess  from './src/session.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 let nikka;
@@ -29,7 +30,7 @@ async function connector() {
     if (!fs.existsSync(sessionDir)) {
         fs.mkdirSync(sessionDir);
     }
-
+    await savesess(config.SESSION_ID);
     const { state, saveCreds } = await useMultiFileAuthState(sessionDir);
 
     nikka = makeWASocket({
@@ -44,14 +45,17 @@ async function connector() {
     });
 
     //sessiion retrieval 
+   
     
 
     nikka.ev.on('connection.update', async (update) => {
         const { connection, qr, lastDisconnect } = update;
 
-        if (qr) {
+       /* if (qr) {
             qrcode.generate(qr, { small: true });
         }
+            */
+        
 
         if (connection === 'open') {
             console.log('Connected successfully');
@@ -59,7 +63,7 @@ async function connector() {
 
             try {
                 await nikka.sendMessage(nikka.user.id, {
-                    text: "✨ Nikka AI connected✨"
+                    text: "nikka connected successfull"
                 });
             } catch (error) {
                 console.error('Upload error:', error);
