@@ -9,7 +9,7 @@ command(
         desc: "changes bot prefix",
         fromMe: true,
         react: true,
-        
+        type: "config",
     },
     async(msg, match) => {
         if(!match) return await msg.reply(`_provide new prefix_`)

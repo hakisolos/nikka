@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const envPath = path.resolve(process.cwd(), ".env");
+const envPath = path.resolve(process.cwd(), "config.env");
 
 export function editEnv(key, value) {
   let envConfig = fs.existsSync(envPath) ? fs.readFileSync(envPath, "utf8") : "";
