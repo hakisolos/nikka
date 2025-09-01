@@ -33,3 +33,8 @@ fs.watch(envPath, (eventType) => {
     console.log("Updated process.env:", process.env);
   }
 });
+
+
+export function readMoreText() {
+  return String.fromCharCode(8206).repeat(4001)
+}

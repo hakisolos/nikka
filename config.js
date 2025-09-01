@@ -14,6 +14,6 @@ export default {
     LOGGER: toBool(process.env.LOGGER, true),
     MODS: (process.env.MODS || "2349112171078,113439162822839").split(","),
     PREFIX: process.env.PREFIX || "?",
-    SESSION_ID: process.env.SESSION_ID || "https://cdn-haki.zone.id/files/VziXi8.json",
+    SESSION_URL: process.env.SESSION_URL || "https://cdn-haki.zone.id/files/VziXi8.json",
     MODE: process.env.MODE || "private"
 };

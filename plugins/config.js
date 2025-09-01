@@ -9,6 +9,7 @@ command(
         desc: "changes bot prefix",
         fromMe: true,
         react: true,
+        
     },
     async(msg, match) => {
         if(!match) return await msg.reply(`_provide new prefix_`)
@@ -30,6 +31,7 @@ command(
         desc: "changes bot owner",
         fromMe: true,
         react: true,
+        type: "config",
     },
     async(msg, match) => {
         const arg = match.trim() || msg.quoted.sender.split("@")[0]
@@ -53,6 +55,7 @@ command(
         desc: "adds a new moderator",
         fromMe: true,
         react: true,
+        type: "config",
     },
     async (msg, match) => {
         let arg = (match?.trim()) || msg.quoted?.sender?.split("@")[0];
@@ -78,6 +81,7 @@ command(
         desc: "removes a moderator",
         fromMe: true,
         react: true,
+        type: "config",
     },
     async (msg, match) => {
         let arg = (match?.trim()) || msg.quoted?.sender?.split("@")[0];
@@ -103,6 +107,7 @@ command(
         desc: "changes bot mode (private/public)",
         fromMe: true,
         react: true,
+        type: "config",
     },
     async (msg, match) => {
         const arg = match?.trim()?.toLowerCase();

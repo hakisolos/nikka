@@ -4,6 +4,7 @@ import util from 'util'
 import { jidNormalizedUser } from "baileys"
 import { commandHandler } from "./commands.js"
 import config from "../config.js"
+import { command, commands } from "./commands.js"
 export function messageHandler(nikka) {
     nikka.ev.on('messages.upsert', async ({ messages }) => {
         const m = messages[0]
@@ -23,7 +24,7 @@ export function messageHandler(nikka) {
                 return;
             }
 
-            const code = msg.body.slice(1).trim();
+            const code = msg.body.slice(1).trim();  
             const result = await eval(`(async () => { ${code} })()`);
             const response = typeof result === 'string' ? result : util.inspect(result);
             await msg.reply(response)

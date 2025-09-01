@@ -29,8 +29,9 @@ async function connector() {
     const sessionDir = './session';
     if (!fs.existsSync(sessionDir)) {
         fs.mkdirSync(sessionDir);
+        await savesess(config.SESSION_URL)
     }
-    await savesess(config.SESSION_ID);
+   ;
     const { state, saveCreds } = await useMultiFileAuthState(sessionDir);
 
     nikka = makeWASocket({
@@ -44,7 +45,7 @@ async function connector() {
         msgRetryCounterCache
     });
 
-    //sessiion retrieval 
+
    
     
 
