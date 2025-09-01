@@ -61,9 +61,10 @@ async function connector() {
         if (connection === 'open') {
             console.log('Connected successfully');
             await delay(3000);
-
+            let owner = config.OWNER;
+            owner = `${owner}@s.whatsapp.net`
             try {
-                await nikka.sendMessage(nikka.user.id, {
+                await nikka.sendMessage(owner, {
                     text: "nikka connected successfull"
                 });
             } catch (error) {
