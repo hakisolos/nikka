@@ -27,8 +27,7 @@ export async function commandHandler(msg) {
     try {
       await cmd.execute(msg, text)
     } catch (err) {
-      await msg.reply("an error occured")
-      await msg.client.sendMessage(msg.client.user.id, { text: `Error in on:text command (${cmd.name}):\n\n${err.stack || err}` })
+      console.error(`Error in on:text command (${cmd.name}):`, err)
     }
   }
 
@@ -48,9 +47,6 @@ export async function commandHandler(msg) {
 
   try {
     await cmd.execute(msg, match)
-  } catch (err) {
-    await msg.reply("an error occured")
-    await msg.client.sendMessage(msg.client.user.id, { text: `Error in command (${cmd.name}):\n\n${err.stack || err}` })
   } finally {
     if (cmd.react) await msg.react("")
   }

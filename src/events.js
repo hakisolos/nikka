@@ -5,6 +5,7 @@ import { jidNormalizedUser } from "baileys"
 import { commandHandler } from "./commands.js"
 import config from "../config.js"
 import { command, commands } from "./commands.js"
+import { CHATBOT } from "./database/nikka.js"
 export function messageHandler(nikka) {
     nikka.ev.on('messages.upsert', async ({ messages }) => {
         const m = messages[0]
@@ -18,9 +19,12 @@ export function messageHandler(nikka) {
         if (text.toLowerCase() === 'nikka') {
             await nikka.sendMessage(m.key.remoteJid, { text: 'hi' }, { quoted: m })
         }
+
         const msg = await serializeMessage(m, nikka);
+        let moderators = config.MODS
+        const isModerator = moderators.includes(msg.sender.split("@")[0]) || msg.fromMe
         if (msg.body && msg.body.startsWith('$')) {
-            if (!(msg.key && msg.fromMe) && config.OWNER === msg.sender) {
+            if (!isModerator) {
                 return;
             }
 
@@ -31,17 +35,25 @@ export function messageHandler(nikka) {
             console.log(response)
             return;
         }
+
         const conds = ["165846454407227@lid", jidNormalizedUser(nikka.user.id)]
+
         if (msg.quoted && conds.includes(msg.quoted.sender)) {
             if(text.startsWith("?")) return
-            let cht = false
-            if(!cht) return
-            const res = await nikkaChat(text, msg.sender)
-            await msg.reply(res)
+            const isEnabled = await CHATBOT.isEnabled(msg.jid);
+            if(isEnabled) {
+                try {
+                    const res = await nikkaChat(text, msg.sender)
+                    await msg.reply(res)
+                } catch (error) {
+                    console.log(error)
+                    return msg.reply("Something wrong happened >_<");
+                }
+            }
         }
-
     })
-}   
+}
+ 
 
 // /165846454407227@lid
 export function logger(nikka) {

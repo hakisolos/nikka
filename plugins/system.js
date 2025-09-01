@@ -45,7 +45,7 @@ command(
     if (match) {
       const query = match.toLowerCase()
 
-      const cmd = commands.find(c => c.name.toLowerCase() === query)
+      const cmd = commands.find(c => c.name?.toLowerCase() === query)
       if (cmd) {
         return await msg.reply(
           `\`\`\`Command: ${prefix}${cmd.name}
@@ -56,7 +56,7 @@ Category: ${cmd.type || "misc"}\`\`\``
       }
 
       const categoryCommands = commands
-        .filter(c => (c.type || "misc").toLowerCase() === query)
+        .filter(c => (c.type || "misc").toLowerCase() === query && c.name)
         .map(c => c.name)
 
       if (categoryCommands.length > 0) {
@@ -71,8 +71,8 @@ Category: ${cmd.type || "misc"}\`\`\``
         menu += `\n\`\`\`╭── ${query.toUpperCase()} ──\`\`\``
         categoryCommands
           .sort((a, b) => a.localeCompare(b))
-          .forEach(cmd => {
-            menu += `\n│\`\`\`❀ ${cmd.trim()}\`\`\``
+          .forEach(cmdName => {
+            menu += `\n│\`\`\`❀ ${cmdName.trim()}\`\`\``
           })
         menu += `\n╰───────\n\n`
         menu += `\n\n\`\`\`𝗡𝗶𝗸𝗸𝗮 𝘅 𝗺𝗱\`\`\``
@@ -92,15 +92,15 @@ Category: ${cmd.type || "misc"}\`\`\``
 🌸 Prefix: ${prefix}
 🌸 Owner: ${owner}
 🌸 Date: ${date}
-🌸 Cmds: ${commands.length}
+🌸 Cmds: ${commands.filter(c => c.name).length}
 ╰───────\`\`\`\n${readMore}`
 
-    const categories = [...new Set(commands.map(c => c.type || "misc"))].sort()
+    const categories = [...new Set(commands.filter(c => c.name).map(c => c.type || "misc"))].sort()
 
     categories.forEach(cat => {
       menu += `\n\`\`\`╭── ${cat.toUpperCase()} ──\`\`\``
       commands
-        .filter(c => (c.type || "misc") === cat)
+        .filter(c => (c.type || "misc") === cat && c.name)
         .sort((a, b) => a.name.localeCompare(b.name))
         .forEach(c => {
           menu += `\n│\`\`\`❀ ${c.name.trim()}\`\`\``
@@ -129,5 +129,3 @@ Category: ${cmd.type || "misc"}\`\`\``
     )
   }
 )
-
-

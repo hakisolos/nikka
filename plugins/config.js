@@ -1,5 +1,6 @@
 import config from "../config.js";
 import { command, isPrivate } from "../src/commands.js";
+import { CHATBOT } from "../src/database/nikka.js";
 import { editEnv } from "../src/utils/util.js";
 
 
@@ -123,3 +124,24 @@ command(
         process.exit()
     }
 );
+
+
+
+command(
+    {
+        pattern: "nikka",
+        fromMe: true,
+        desc: "toggle nikka chatbot",
+        usage: `${config.PREFIX}nikka on/off`,
+        type: "config",
+        
+    },
+    async (msg, match) => {
+        const options = ["on", "off"];
+        if (!match || !options.includes(match.toLowerCase())) {
+            return await msg.reply(`_Proper Usage: ${config.PREFIX}nikka on/off_`);
+        }
+        await CHATBOT.enable(msg.jid)
+        await msg.reply(`_nikka is enabled in this chat_`);
+    }
+)
