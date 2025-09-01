@@ -1,19 +1,25 @@
 import { db } from "./supabase.js"
 
 export const CHATBOT = {
-  table: "chat_toggles",
+  table: "configs",
   feature: "chatbot",
 
   async enable(chatid) {
     await db
       .from(this.table)
-      .upsert({ chat_id: chatid, feature: this.feature, state: true })
+      .upsert(
+        { chat_id: chatid, feature: this.feature, state: true },
+        { onConflict: ["chat_id", "feature"] }
+      )
   },
 
   async disable(chatid) {
     await db
       .from(this.table)
-      .upsert({ chat_id: chatid, feature: this.feature, state: false })
+      .upsert(
+        { chat_id: chatid, feature: this.feature, state: false },
+        { onConflict: ["chat_id", "feature"] }
+      )
   },
 
   async isEnabled(chatid) {
@@ -22,8 +28,7 @@ export const CHATBOT = {
       .select("state")
       .eq("chat_id", chatid)
       .eq("feature", this.feature)
-      .single()
-
+      .maybeSingle() 
     if (error) {
       console.error("Supabase error:", error.message)
       return false

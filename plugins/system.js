@@ -5,6 +5,7 @@ command(
     {
         name: "ping",
         desc: "shows ping of bot",
+        usage: `${config.PREFIX}ping`,
         fromMe: isPrivate,
         react: true,
         type: "info",

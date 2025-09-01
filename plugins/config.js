@@ -10,6 +10,7 @@ command(
         desc: "changes bot prefix",
         fromMe: true,
         react: true,
+        usage: `${config.PREFIX}setprefix [new prefix]`,
         type: "config",
     },
     async(msg, match) => {
@@ -31,6 +32,7 @@ command(
         name: "setowner",
         desc: "changes bot owner",
         fromMe: true,
+        usage: `${config.PREFIX}setworner [new owner]`,
         react: true,
         type: "config",
     },
@@ -56,6 +58,7 @@ command(
         desc: "adds a new moderator",
         fromMe: true,
         react: true,
+        usage: `${config.PREFIX}addmod [new mod]`,
         type: "config",
     },
     async (msg, match) => {
@@ -82,6 +85,7 @@ command(
         desc: "removes a moderator",
         fromMe: true,
         react: true,
+        usage: `${config.PREFIX}delmod [mod]`,
         type: "config",
     },
     async (msg, match) => {
@@ -108,6 +112,7 @@ command(
         desc: "changes bot mode (private/public)",
         fromMe: true,
         react: true,
+        usage: `${config.PREFIX}mode [private/public]`,
         type: "config",
     },
     async (msg, match) => {
@@ -127,21 +132,35 @@ command(
 
 
 
+
+
 command(
     {
-        pattern: "nikka",
+        name: "nikka",
+        desc: "changes nikka mode (on/off)",
         fromMe: true,
-        desc: "toggle nikka chatbot",
-        usage: `${config.PREFIX}nikka on/off`,
+        react: true,
         type: "config",
-        
     },
     async (msg, match) => {
-        const options = ["on", "off"];
-        if (!match || !options.includes(match.toLowerCase())) {
-            return await msg.reply(`_Proper Usage: ${config.PREFIX}nikka on/off_`);
+        const arg = match?.trim()?.toLowerCase();
+        if (!arg || !["on", "off"].includes(arg)) 
+            return await msg.reply(`_Provide mode: on or off_`);
+
+        const isEnabled = await CHATBOT.isEnabled(msg.jid);
+
+        if (arg === "on") {
+            if (isEnabled) return await msg.reply(`_Nikka is already on_`);
+            await CHATBOT.enable(msg.jid);
+            await msg.reply("Nikka enabled");
         }
-        await CHATBOT.enable(msg.jid)
-        await msg.reply(`_nikka is enabled in this chat_`);
+
+        if (arg === "off") {
+            if (!isEnabled) return await msg.reply(`_Nikka is already off_`);
+            await CHATBOT.disable(msg.jid);
+            await msg.reply("Nikka disabled");
+        }
+
+        if (msg.react) await msg.react("");
     }
-)
+);

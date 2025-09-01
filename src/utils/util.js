@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
-
+import { commands } from "../commands.js";
+import config from "../../config.js";
+const prefix = config.PREFIX
 const envPath = path.resolve(process.cwd(), "config.env");
 
 export function editEnv(key, value) {
@@ -38,3 +40,17 @@ fs.watch(envPath, (eventType) => {
 export function readMoreText() {
   return String.fromCharCode(8206).repeat(4001)
 }
+
+
+
+function getCommandsSummary() {
+    if (!commands.length) return "No commands available yet.";
+    
+    return commands.map(c => {
+        const usage = c.usage ? `Usage: ${prefix}${c.usage}` : '';
+        const desc = c.desc ? ` - ${c.desc}` : '';
+        return `• ${prefix}${c.name}${desc} ${usage}`.trim();
+    }).join('\n');
+}
+
+
