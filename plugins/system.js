@@ -130,3 +130,17 @@ Category: ${cmd.type || "misc"}\`\`\``
     )
   }
 )
+
+command(
+    {
+        name: "restart",
+        desc: "restart bot",
+        usage: `${config.PREFIX}restart`,
+        react: false,
+        type: "system",
+    },
+    async(msg, match) => {
+        await msg.reply("_Restarting Bot_")
+        process.exit()
+    }
+)
