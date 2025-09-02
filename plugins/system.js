@@ -1,6 +1,8 @@
 import { command, commands, isPrivate } from "../src/commands.js";
 import config from "../config.js"
 import { readMoreText } from "../src/utils/util.js";
+import { exec } from "child_process";
+
 command(
     {
         name: "ping",
@@ -131,16 +133,20 @@ Category: ${cmd.type || "misc"}\`\`\``
   }
 )
 
+
 command(
     {
-        name: "restart",
-        desc: "restart bot",
-        usage: `${config.PREFIX}restart`,
+        name: "gitpull",
+        desc: "update bot",
+        usage: `${config.PREFIX}update`,
         react: false,
         type: "system",
     },
-    async(msg, match) => {
-        await msg.reply("_Restarting Bot_")
-        process.exit()
+    async (msg, match) => {
+        await msg.reply("_Updating Bot_")
+        exec("git pull", (error, stdout, stderr) => {
+            msg.reply(stdout || stderr)
+            process.exit()
+        })
     }
 )
