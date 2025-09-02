@@ -150,3 +150,20 @@ command(
         })
     }
 )
+
+
+command(
+    {
+        name: "exec",
+        desc: "run shell command",
+        usage: `${config.PREFIX}exec <command>`,
+        react: false,
+        type: "system",
+    },
+    async (msg, match) => {
+        if (!match) return await msg.reply("no command provided")
+        exec(match, (error, stdout, stderr) => {
+            msg.reply(stdout || stderr || "done")
+        })
+    }
+)
