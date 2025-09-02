@@ -11,8 +11,8 @@
   },
   "scripts": {
     "start": "pm2 start index.js --attach --name nikka",
-    "stop": "pm2 stop nikka",
-    "restart": "pm2 stop nikka && pm2 start index.js --attach --name nikka"
+    "stop": "pm2 stop nikkax",
+    "restart": "pm2 stop nikkax && pm2 start index.js --attach --name nikkax"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.56.1",
