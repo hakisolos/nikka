@@ -54,3 +54,19 @@ function getCommandsSummary() {
 }
 
 
+
+export function getUptime() {
+  let totalSeconds = Math.floor(process.uptime());
+  let days = Math.floor(totalSeconds / (24 * 60 * 60));
+  let hours = Math.floor((totalSeconds % (24 * 60 * 60)) / 3600);
+  let minutes = Math.floor((totalSeconds % 3600) / 60);
+  let seconds = totalSeconds % 60;
+
+  let result = [];
+  if (days) result.push(`${days}d`);
+  if (hours) result.push(`${hours}h`);
+  if (minutes) result.push(`${minutes}m`);
+  if (seconds) result.push(`${seconds}s`);
+
+  return result.join(" ");
+}
