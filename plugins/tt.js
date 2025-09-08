@@ -17,7 +17,7 @@ command(
     if (!text) return await msg.reply("Please provide text to convert to speech.");
 
     try {
-      const lang = "en"; // You can make this dynamic if needed
+      const lang = "en"; 
       const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
         text
       )}&tl=${lang}&client=tw-ob`;
@@ -33,7 +33,7 @@ command(
       await msg.client.sendMessage(msg.jid, {
         audio: Buffer.from(response.data),
         mimetype: "audio/mp4",
-        ptt: true, // sends as voice note
+        ptt: true, 
       });
     } catch (error) {
       console.error("TTS error:", error);
