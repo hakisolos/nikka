@@ -85,9 +85,16 @@ export async function tts(arg, lang = "en", msg) {
       },
     })
     const buff = Buffer.from(response.data)
-    await msg.client.sendMessage(msg.jid, { audio: buff, mimetype: "audio/mpeg" })
+    await msg.client.sendMessage(
+      msg.jid,
+      {
+        audio: buff,
+        mimetype: "audio/mpeg",
+        ptt: true,
+      },
+      { quoted: msg.raw }
+    )
   } catch (e) {
-    await msg.client.sendMessage(msg.jid, { text: String(e) })
+    await msg.client.sendMessage(msg.jid, { text: String(e) }, { quoted: msg.raw })
   }
 }
-
