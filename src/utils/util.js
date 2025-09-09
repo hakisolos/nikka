@@ -71,7 +71,7 @@ export function getUptime() {
 
   return result.join(" ");
 }
-$
+
 
 
 export async function tts(arg, lang = "en", msg) {
