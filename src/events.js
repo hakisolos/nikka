@@ -3,7 +3,7 @@ import { serializeMessage } from "./serialize.js"
 import util from 'util'
 import { jidNormalizedUser } from "baileys"
 import { commandHandler } from "./commands.js"
-import {tts} from "./utils/utils.js"
+import {tts} from "./utils/util.js"
 import config from "../config.js"
 import { command, commands } from "./commands.js"
 import { CHATBOT } from "./database/nikka.js"
@@ -45,7 +45,7 @@ export function messageHandler(nikka) {
             if(isEnabled) {
                 try {
                     const res = await nikkaChat(text, msg.sender)
-                    await msg.reply(res)
+                    await tts(res, "en", msg)
                 } catch (error) {
                     console.log(error)
                     return msg.reply("Something wrong happened >_<");
