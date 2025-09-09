@@ -71,3 +71,23 @@ export function getUptime() {
 
   return result.join(" ");
 }
+$
+
+
+export async function tts(arg, lang = "en", msg) {
+  try {
+    if (!arg || typeof arg !== "string") throw new Error("Invalid input")
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(arg)}&tl=${lang}&client=tw-ob`
+    const response = await axios.get(url, {
+      responseType: "arraybuffer",
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/89.0.4389.82 Safari/537.36",
+      },
+    })
+    const buff = Buffer.from(response.data)
+    await msg.client.sendMessage(msg.jid, { audio: buff, mimetype: "audio/mpeg" })
+  } catch (e) {
+    await msg.client.sendMessage(msg.jid, { text: String(e) })
+  }
+}
+
