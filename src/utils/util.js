@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import axios from "axios";
 import { commands } from "../commands.js";
 import config from "../../config.js";
 const prefix = config.PREFIX
