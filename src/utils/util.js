@@ -102,7 +102,7 @@ export async function tts(arg, lang = "en", msg) {
 
 
 const patterns = {
-  tiktok: /^https?:\/\/(www\.)?tiktok\.com\/.+/i,
+  tiktok: /^https?:\/\/(www\.)?(tiktok\.com|vt\.tiktok\.com)\/.+/i,
   youtube: /^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/.+/i,
   instagram: /^https?:\/\/(www\.)?instagram\.com\/.+/i,
   facebook: /^https?:\/\/(www\.)?facebook\.com\/.+/i,
