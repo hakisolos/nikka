@@ -144,7 +144,7 @@ command(
     const ref = msg.quoted?.text || ""
     const combined = q + " " + ref
 
-    const urlRegex = /(https?:\/\/(?:vm\.)?tiktok\.com\/[^\s]+)/i
+    const urlRegex = /https:\/\/(?:www\.|vm\.|m\.|vt\.)?tiktok\.com\/(?:(@[\w.-]+\/(?:video|photo)\/\d+)|v\/\d+\.html|[\w-]+\/?)(?:\?.*)?$/
     const found = combined.match(urlRegex)
     const url = found ? found[0] : null
     const audioMode = /audio$/i.test(q)
