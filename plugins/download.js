@@ -29,3 +29,38 @@ command(
         }
     }
 );
+
+command(
+  {
+    name: "apk",
+    desc: "Download apk by package or name",
+    fromMe: isPrivate,
+    react: true,
+    type: "download",
+  },
+  async (msg, match) => {
+    const q = match?.trim()
+    if (!q) return msg.reply("_provide app name or package_")
+
+    const r = await axios.get(`https://kord-api.vercel.app/apk?q=${encodeURIComponent(q)}`)
+    const d = r.data
+
+    if (!d?.download_url) return msg.reply("_no apk found_")
+
+    await msg.client.sendMessage(msg.jid, {
+      document: { url: d.download_url },
+      mimetype: "application/vnd.android.package-archive",
+      fileName: `${d.app_name} v${d.version}.apk`,
+      contextInfo: {
+        externalAdReply: {
+          title: d.app_name || "APK Download",
+          body: `Version: ${d.version || "unknown"}`,
+          thumbnailUrl: d.icon || "https://telegra.ph/file/4c3d94d1d8c65b0e40f40.jpg", // fallback icon
+          sourceUrl: d.download_url, 
+          mediaType: 1,
+          renderLargerThumbnail: true
+        }
+      }
+    }, { quoted: msg.raw })
+  }
+)
