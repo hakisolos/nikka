@@ -98,3 +98,30 @@ export async function tts(arg, lang = "en", msg) {
     await msg.client.sendMessage(msg.jid, { text: String(e) }, { quoted: msg.raw })
   }
 }
+
+
+
+const patterns = {
+  tiktok: /^https?:\/\/(www\.)?tiktok\.com\/.+/i,
+  youtube: /^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/.+/i,
+  instagram: /^https?:\/\/(www\.)?instagram\.com\/.+/i,
+  facebook: /^https?:\/\/(www\.)?facebook\.com\/.+/i,
+  x: /^https?:\/\/(www\.)?(x\.com|twitter\.com)\/.+/i,
+};
+
+function base(url) {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export const isUrl = Object.assign(base, {
+  tiktok: (url) => patterns.tiktok.test(url),
+  youtube: (url) => patterns.youtube.test(url),
+  instagram: (url) => patterns.instagram.test(url),
+  facebook: (url) => patterns.facebook.test(url),
+  x: (url) => patterns.x.test(url),
+});
