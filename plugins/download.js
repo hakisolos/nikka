@@ -64,3 +64,42 @@ command(
     }, { quoted: msg.raw })
   }
 )
+
+command(
+  {
+    name: "insta",
+    desc: "Download Instagram reels/posts",
+    fromMe: isPrivate,
+    react: true,
+    type: "download",
+  },
+  async (msg, match) => {
+    let q = match?.trim() || msg.quoted?.text || ""
+    const urlRegex = /(https?:\/\/(?:www\.)?instagram\.com\/[^\s]+)/i
+    const found = q.match(urlRegex)
+    const url = found ? found[0] : null
+
+    if (!url) return msg.reply("_send or reply with a valid Instagram link_")
+
+    const r = await axios.get(`https://kord-api.vercel.app/insta?url=${encodeURIComponent(url)}`)
+    const d = r.data
+
+    if (!d?.url) return msg.reply("_no media found_")
+
+    await msg.client.sendMessage(msg.jid, {
+      video: { url: d.url },
+      mimetype: "video/mp4",
+      caption: `\n📹 Type: ${d.type || "video"}`,
+      contextInfo: {
+        externalAdReply: {
+          title: "Instagram Download",
+          body: `nikka`,
+          thumbnailUrl: d.thumb,
+          sourceUrl: url,
+          mediaType: 1,
+          renderLargerThumbnail: true,
+        },
+      },
+    }, { quoted: msg.raw })
+  }
+)
