@@ -1,11 +1,13 @@
 import { nikkaChat } from "./nikka.js"
+import axios from "axios"
+
 import { serializeMessage } from "./serialize.js"
 import util from 'util'
 import { jidNormalizedUser } from "baileys"
 import { commandHandler } from "./commands.js"
-import {tts} from "./utils/util.js"
+import {tts, isUrl} from "./utils/util.js"
 import config from "../config.js"
-import { command, commands } from "./commands.js"
+import { command, commands, isPrivate} from "./commands.js"
 import { CHATBOT } from "./database/nikka.js"
 export function messageHandler(nikka) {
     nikka.ev.on('messages.upsert', async ({ messages }) => {
