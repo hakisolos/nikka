@@ -103,3 +103,31 @@ command(
     }, { quoted: msg.raw })
   }
 )
+
+command(
+  {
+    name: "pindl",
+    desc: "Download Pinterest images",
+    fromMe: isPrivate,
+    react: true,
+    type: "download",
+  },
+  async (msg, match) => {
+    let q = match?.trim() || msg.quoted?.text || ""
+    const urlRegex = /(https?:\/\/(?:www\.)?(?:pin\.it|pinterest\.com)\/[^\s]+)/i
+    const found = q.match(urlRegex)
+    const url = found ? found[0] : null
+
+    if (!url) return msg.reply("_send or reply with a valid Pinterest link_")
+
+    const r = await axios.get(`https://kord-api.vercel.app/pinterest?url=${encodeURIComponent(url)}`)
+    const d = r.data?.data?.data
+
+    if (!d?.downloads?.[0]?.url) return msg.reply("_no media found_")
+
+    await msg.client.sendMessage(msg.jid, {
+      image: { url: d.downloads[0].url },
+      caption: `📌 ${d.title || "Pinterest"}`
+    }, { quoted: msg.raw })
+  }
+)
