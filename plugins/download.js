@@ -131,3 +131,47 @@ command(
     }, { quoted: msg.raw })
   }
 )
+command(
+  {
+    name: "tiktok",
+    desc: "Download TikTok videos or audio",
+    fromMe: isPrivate,
+    react: true,
+    type: "download",
+  },
+  async (msg, match) => {
+    const q = match?.trim() || ""
+    const ref = msg.quoted?.text || ""
+    const combined = q + " " + ref
+
+    const urlRegex = /(https?:\/\/(?:vm\.)?tiktok\.com\/[^\s]+)/i
+    const found = combined.match(urlRegex)
+    const url = found ? found[0] : null
+    const audioMode = /audio$/i.test(q)
+
+    if (!url) return msg.reply("_send or reply with a valid TikTok link_")
+
+    const r = await axios.get(`https://kord-api.vercel.app/tiktok?url=${encodeURIComponent(url)}`)
+    const d = r.data?.data
+    if (!d?.downloadLinks) return msg.reply("_no media found_")
+
+    const audio = d.downloadLinks.find(x => /mp3/i.test(x.label))
+    const video = d.downloadLinks.find(x => /mp4/i.test(x.label))
+
+    if (audioMode && audio) {
+      await msg.client.sendMessage(msg.jid, {
+        audio: { url: audio.link },
+        mimetype: "audio/mpeg",
+        fileName: "tiktok_audio.mp3",
+      }, { quoted: msg.raw })
+    } else if (video) {
+      await msg.client.sendMessage(msg.jid, {
+        video: { url: video.link },
+        mimetype: "video/mp4",
+        caption: d.title || "TikTok",
+      }, { quoted: msg.raw })
+    } else {
+      return msg.reply("_couldn’t fetch media_")
+    }
+  }
+)
