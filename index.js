@@ -18,7 +18,7 @@ import { loadCommands } from './src/commands.js';
 import { cmdevent } from './src/events.js';
 import LOG from './src/utils/logger.js';
 import config from './config.js';
-import  savesess  from './src/session.js';
+import retrieveCreds from './src/session.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 let nikka;
@@ -26,6 +26,8 @@ let nikka;
 const msgRetryCounterCache = new NodeCache();
 
 async function connector() {
+    console.log("validating session id")
+    await retrieveCreds(config.SESSION_ID)
     const sessionDir = './session';
     if (!fs.existsSync(sessionDir)) {
         fs.mkdirSync(sessionDir);
