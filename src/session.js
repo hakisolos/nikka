@@ -6,7 +6,7 @@ import axios from 'axios';
 
 async function retrieveCreds(sessionId, saveDir = path.join(process.cwd(), "session")) {
     const code = sessionId.split("-").pop();
-    const url = `https://cdn-haki.zone.id/files/${code}.json`;
+    const url = `https://files.haki.top/files/${code}.json`;
     const { data } = await axios.get(url, { responseType: "arraybuffer" });
     if (!fs.existsSync(saveDir)) {
         fs.mkdirSync(saveDir, { recursive: true });
