@@ -30,7 +30,7 @@ command(
   },
   async (msg, match) => {
     if (!msg.quoted || !["imageMessage", "videoMessage"].includes(msg.quoted.type)) {
-      return msg.reply("Reply to an image or video to make a sticker");
+      return msg.reply("_Reply to an image or video_");
     }
 
     let option = match?.trim().toLowerCase();
