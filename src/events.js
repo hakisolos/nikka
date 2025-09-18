@@ -47,7 +47,7 @@ export function messageHandler(nikka) {
             if(isEnabled) {
                 try {
                     const res = await nikkaChat(text, msg.sender)
-                    await tts(res, "en", msg)
+                    await msg.reply(res.trim())
                 } catch (error) {
                     console.log(error)
                     return msg.reply("Something wrong happened >_<");
