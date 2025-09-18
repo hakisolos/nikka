@@ -3,12 +3,11 @@ import { command, isPrivate } from "../src/commands.js";
 
 import { Sticker, StickerTypes }  from"wa-sticker-formatter";
 
-async function toSticker(msg, buffer) {
+async function toSticker(msg, buffer, type) {
   const sticker = new Sticker(buffer, {
     pack: "Haki",
-    type: StickerTypes.FULL,
-    categories: ["🤩", "🎉"],
-    id: "12345",
+    author: "Nikka",
+    type,
     quality: 70,
   });
 
@@ -23,23 +22,29 @@ async function toSticker(msg, buffer) {
 
 command(
   {
-    name: "sticker",
+    name: "stk",
     desc: "Convert image/video to sticker",
     fromMe: isPrivate,
     react: true,
     type: "converter",
   },
   async (msg, match) => {
-    if (
-      !msg.quoted ||
-      !["imageMessage", "videoMessage"].includes(msg.quoted.type)
-    ) {
-      return msg.reply("_Reply to an image or video to make a sticker _");
+    if (!msg.quoted || !["imageMessage", "videoMessage"].includes(msg.quoted.type)) {
+      return msg.reply("Reply to an image or video to make a sticker");
+    }
+
+    let option = match?.trim().toLowerCase();
+    let type = StickerTypes.FULL;
+
+    if (option === "crop") type = StickerTypes.CROP;
+    else if (option === "round") type = StickerTypes.CIRCLE;
+    else if (option && option !== "full") {
+      return msg.reply("Invalid option. Use: stk | stk crop | stk round");
     }
 
     const buffer = await msg.quoted.download();
-    if (!buffer) return msg.reply("_Failed to download media _");
+    if (!buffer) return msg.reply("Failed to download media");
 
-    await toSticker(msg, buffer);
+    await toSticker(msg, buffer, type);
   }
 );
