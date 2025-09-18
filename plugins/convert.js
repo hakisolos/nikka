@@ -22,7 +22,7 @@ async function toSticker(msg, buffer, type) {
 
 command(
   {
-    name: "stk",
+    name: "sticker",
     desc: "Convert image/video to sticker",
     fromMe: isPrivate,
     react: true,
