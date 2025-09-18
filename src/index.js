@@ -1,4 +1,4 @@
-function isAdmin(metadata, userId) {
+export function isAdmin(metadata, userId) {
   if (!metadata || !metadata.participants || !userId) return false;
 
   const participant = metadata.participants.find(
