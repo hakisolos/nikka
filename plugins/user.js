@@ -6,7 +6,7 @@ command(
     desc: "Get profile picture",
     fromMe: isPrivate,
     react: true,
-    type: "utility",
+    type: "user",
   },
   async (msg) => {
     let target = msg.quoted?.sender || msg.jid;
