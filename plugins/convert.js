@@ -1,6 +1,5 @@
 import { command, isPrivate } from "../src/commands.js";
 
-
 import { Sticker, StickerTypes }  from"wa-sticker-formatter";
 
 async function toSticker(msg, buffer, type) {
@@ -46,5 +45,39 @@ command(
     if (!buffer) return msg.reply("Failed to download media");
 
     await toSticker(msg, buffer, type);
+  }
+);
+async function toImage(msg, buffer) {
+  const { default: sharp } = await import("sharp");
+
+  const imageBuffer = await sharp(buffer, { animated: true })
+    .trim()
+    .toFormat("png")
+    .toBuffer();
+
+  await msg.client.sendMessage(
+    msg.jid,
+    { image: imageBuffer },
+    { quoted: msg.raw }
+  );
+}
+
+command(
+  {
+    name: "photo",
+    desc: "Convert sticker to photo",
+    fromMe: isPrivate,
+    react: true,
+    type: "converter",
+  },
+  async (msg) => {
+    if (!msg.quoted || msg.quoted.type !== "stickerMessage") {
+      return msg.reply("_Reply to a sticker_");
+    }
+
+    const buffer = await msg.quoted.download();
+    if (!buffer) return msg.reply("Failed to download sticker");
+
+    await toImage(msg, buffer);
   }
 );
