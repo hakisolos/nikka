@@ -1,6 +1,6 @@
 import { nikkaChat } from "./nikka.js"
 import axios from "axios"
-
+import {toSticker} from "./index.js"
 import { serializeMessage } from "./serialize.js"
 import util from 'util'
 import { jidNormalizedUser } from "baileys"
