@@ -120,7 +120,7 @@ export async function nikkaChat(message, jid, options = {}) {
     const response = await axios.post(
       "https://api.cohere.ai/v1/chat",
       {
-        model: "command-r-plus",
+        model: "command-r-plus-08-2024",
         chat_history: formatHistoryForCohere(historyMap[jid].slice(0, -1)),
         message: message,
         preamble: customPreamble,
